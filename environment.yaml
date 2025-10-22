@@ -1,0 +1,8 @@
+name: registro-faltas-env
+dependencies: 
+- python=3.10
+-pip
+-pip:
+   -streamlit
+   -pandas
+   -openpyxl
