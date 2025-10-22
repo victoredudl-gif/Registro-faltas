@@ -136,4 +136,5 @@ if not filtrados.empty:
 else:
     st.info("No hay coincidencias con la búsqueda.")
 
+#Reconstrucion forzada para instalar openpyxl
 
