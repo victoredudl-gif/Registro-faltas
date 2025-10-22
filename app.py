@@ -21,7 +21,7 @@ st.write("Hojas disponibles en el archivo:", xls.sheet_names)
 
 
 
-xls = pd.ExcelFile("nomina.xlsx")
+xls = pd.ExcelFile("nomina.xlsx", engine = "openpyxl)
 df = pd.read_excel(xls, sheet_name="Estudiantes")
 
 
@@ -137,5 +137,6 @@ if not filtrados.empty:
             st.error("\n".join(alertas))
 else:
     st.info("No hay coincidencias con la búsqueda.")
+
 
 
