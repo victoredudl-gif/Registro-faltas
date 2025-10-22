@@ -1,3 +1,10 @@
+try:
+    import openpyxl
+    st.success("✅ openpyxl está instalado correctamente.")
+except ImportError:
+    st.error("❌ openpyxl NO está instalado en el entorno.")
+
+
 import streamlit as st
 import pandas as pd
 from datetime import datetime
@@ -137,4 +144,5 @@ else:
     st.info("No hay coincidencias con la búsqueda.")
 
 #Reconstrucion forzada para instalar openpyxl
+
 
