@@ -1,5 +1,3 @@
-
-
 import streamlit as st
 import pandas as pd
 from datetime import datetime
@@ -10,34 +8,34 @@ st.title("📋 Registro de Faltas Escolares")
 
 archivo = "nomina.xlsx"
 
-# Diagnóstico: mostrar archivos disponibles
-st.write("Archivos disponibles en la app:", os.listdir())
+# Mostrar archivos disponibles (diagnóstico)
+st.write("📁 Archivos disponibles en la app:", os.listdir())
 
-# Diagnóstico: mostrar hojas disponibles en el Excel
-xls = pd.ExcelFile(archivo)
-st.write("Hojas disponibles en el archivo:", xls.sheet_names)
+# Verificar si el archivo existe
+if not os.path.exists(archivo):
+    st.error(f"❌ El archivo '{archivo}' no se encuentra en la carpeta.")
+    st.stop()
 
-# Ahora sí, carga la hoja 'Estudiantes'
+# Intentar leer las hojas disponibles
+try:
+    xls = pd.ExcelFile(archivo, engine="openpyxl")
+    st.write("📄 Hojas disponibles en el archivo:", xls.sheet_names)
+except Exception as e:
+    st.error(f"❌ No se pudo leer el archivo Excel: {e}")
+    st.stop()
 
-
-
-xls = pd.ExcelFile("nomina.xlsx", engine = "openpyxl")
-df = pd.read_excel(xls, sheet_name="Estudiantes")
-
-
-archivo = "nomina.xlsx"
-st.write("Archivos disponibles:" , os.listdir())
 # Cargar hoja de estudiantes
 try:
-    df_estudiantes = pd.read_excel(archivo, sheet_name="Estudiantes")
+    df_estudiantes = pd.read_excel(xls, sheet_name="Estudiantes", engine="openpyxl")
 except:
-    st.warning("No se encontró la hoja 'Estudiantes'.")
+    st.warning("⚠️ No se encontró la hoja 'Estudiantes'. Se usará una tabla vacía.")
     df_estudiantes = pd.DataFrame(columns=["Cédula", "Nombre", "Apellido", "Año", "Mención"])
 
 # Cargar hoja de faltas
 try:
-    df_faltas = pd.read_excel(archivo, sheet_name="Faltas")
+    df_faltas = pd.read_excel(xls, sheet_name="Faltas", engine="openpyxl")
 except:
+    st.warning("⚠️ No se encontró la hoja 'Faltas'. Se usará una tabla vacía.")
     df_faltas = pd.DataFrame(columns=["Cédula", "Nombre", "Apellido", "Año", "Mención", "Fecha", "Semana", "Falta", "Mes"])
 
 # 🔍 Buscar estudiante por cédula, nombre o apellido
@@ -77,7 +75,7 @@ if not filtrados.empty:
     fecha = st.date_input("Fecha de la falta", value=datetime.today())
     semana = st.selectbox("Semana del mes", ["Semana 1", "Semana 2", "Semana 3", "Semana 4"])
     faltas = st.multiselect("Tipo de falta", [
-        "Retardo justificado",
+        "Retardo injustificado",
         "Daños a las instalaciones",
         "Irrespeto a los símbolos patrios",
         "Retiro del plantel sin permiso",
@@ -137,7 +135,5 @@ if not filtrados.empty:
             st.error("\n".join(alertas))
 else:
     st.info("No hay coincidencias con la búsqueda.")
-
-
 
 
