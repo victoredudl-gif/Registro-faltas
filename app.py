@@ -8,6 +8,11 @@ try:
     st.success("✅ openpyxl está instalado correctamente.")
 except ImportError:
     st.error("❌ openpyxl NO está instalado en el entorno.")
+try:
+    import openpyxl
+except ImportError:
+    subprocess.check_call([sys.executable, "-m", "pip", "install", "openpyxl"])
+    import openpyxl
 
 
 st.set_page_config(page_title="Registro de Faltas", layout="centered")
@@ -144,6 +149,7 @@ else:
     st.info("No hay coincidencias con la búsqueda.")
 
 #Reconstrucion forzada para instalar openpyxl
+
 
 
 
