@@ -1,4 +1,5 @@
 
+
 import streamlit as st
 import pandas as pd
 from datetime import datetime
@@ -9,6 +10,23 @@ st.title("📋 Registro de Faltas Escolares")
 
 archivo = "nomina.xlsx"
 
+# Diagnóstico: mostrar archivos disponibles
+st.write("Archivos disponibles en la app:", os.listdir())
+
+# Diagnóstico: mostrar hojas disponibles en el Excel
+xls = pd.ExcelFile(archivo)
+st.write("Hojas disponibles en el archivo:", xls.sheet_names)
+
+# Ahora sí, carga la hoja 'Estudiantes'
+
+
+
+xls = pd.ExcelFile("nomina.xlsx")
+df = pd.read_excel(xls, sheet_name="Estudiantes")
+
+
+archivo = "nomina.xlsx"
+st.write("Archivos disponibles:" , os.listdir())
 # Cargar hoja de estudiantes
 try:
     df_estudiantes = pd.read_excel(archivo, sheet_name="Estudiantes")
@@ -119,3 +137,5 @@ if not filtrados.empty:
             st.error("\n".join(alertas))
 else:
     st.info("No hay coincidencias con la búsqueda.")
+
+
